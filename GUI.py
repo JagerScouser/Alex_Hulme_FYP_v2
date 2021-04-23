@@ -3,6 +3,8 @@ import tkinter.messagebox
 from tkinter import filedialog
 from tkinter import *
 from Main import GPSVis
+import os
+
 
 def Open_Dataset():
     # This function will open file explorer
@@ -14,6 +16,8 @@ def Open_Map():
     Map = filedialog.askopenfilename()
 def about_us():
     tkinter.messagebox.showinfo('About Us', 'This is a program made in Python by Alex Hulme for his Final Year Project')
+def help_guide():
+    os.startfile(r"C:\Users\AlexT\OneDrive\Desktop\Python Project New\User_Guide.pdf")
 
 def GPS_Visualisation(entry1,entry2,entry3,entry4):
     vis = GPSVis(data_path=data_set,  # DATASET WITH COORDINATES
@@ -25,9 +29,6 @@ def GPS_Visualisation(entry1,entry2,entry3,entry4):
     vis.create_image(color=(0, 0, 255), width=3)
     # Sets the colour of the visualisation on map
     vis.plot_map(output='save')
-
-    print()
-
 
 # Starts the tkinter GUI
 root = Tk()
@@ -44,7 +45,7 @@ subMenu.add_command(label="Exit", command=root.destroy)
 subMenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Help", menu=subMenu)
 subMenu.add_command(label="About us", command= about_us)
-subMenu.add_command(label="User Guide")
+
 
 root.title("PERSEC Application") # Titles the frame
 root.geometry('400x400') # Sets the Height and Width
@@ -81,6 +82,9 @@ entry4.pack()
 # select present --- Dialog box
 submit = Button(root, text="Submit", command = lambda: GPS_Visualisation(entry1.get(), entry2.get(), entry3.get(), entry4.get()))
 submit.pack()
+
+btn_help = Button(root, text="Help", command= help_guide)
+btn_help.pack()
 
 
 
