@@ -41,11 +41,11 @@ class GPSVis(object):
         # color = color the GPS line is
         # width = width of the GPS line
         data = pd.read_csv(self.data_path, header=0)
-        # sep will separate the latitude from the longitude
         data.info()
         self.result_image = Image.open(self.map_path, 'r')
         img_points = []
         gps_data = tuple(zip(data['latitude'].values, data['longitude'].values))
+        # sep will separate the latitude from the longitude
 
         for d in gps_data:
             x1, y1 = self.scale_to_img(d, (self.result_image.size[0], self.result_image.size[1]))
@@ -77,4 +77,3 @@ class GPSVis(object):
         self.y_ticks = sorted(y_ticks, reverse=True)
         # Ticks have to be reversed as of the orientation of the image in matplotlib.
         # the image (0, 0) coord is in the upper left corner // coord system has (0,0) in the bottom left corner
-

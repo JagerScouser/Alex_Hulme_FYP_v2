@@ -45,6 +45,7 @@ subMenu.add_command(label="Exit", command=root.destroy)
 subMenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Help", menu=subMenu)
 subMenu.add_command(label="About us", command= about_us)
+subMenu.add_command(label="User Guide", command= help_guide)
 
 
 root.title("PERSEC Application") # Titles the frame
@@ -78,13 +79,11 @@ var4 = tkinter.Label(root, text="Bottom Right Longitude")
 var4.pack()
 entry4 = tkinter.Entry(root, textvariable=entry4)
 entry4.pack()
+
 # Add an error check later (int check, prescence check)
 # select present --- Dialog box
 submit = Button(root, text="Submit", command = lambda: GPS_Visualisation(entry1.get(), entry2.get(), entry3.get(), entry4.get()))
 submit.pack()
-
-btn_help = Button(root, text="Help", command= help_guide)
-btn_help.pack()
 
 
 
