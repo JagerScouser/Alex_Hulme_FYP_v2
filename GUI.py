@@ -3,9 +3,9 @@ import tkinter.messagebox
 from tkinter import filedialog
 from tkinter import *
 import pandas as pd
-
 from Main import GPSVis
 import os
+globalID = str("somepieceoftext")
 
 def Open_Dataset(Menu, dropVar, index=None):
     # This function will open file explorer
@@ -19,14 +19,14 @@ def Open_Dataset(Menu, dropVar, index=None):
     #for id in UID:
         #print(id)
     drop_menu = Menu["menu"]
-    #drop_menu.delete(0, "end")
+    drop_menu.delete(0, "end")
     for string in UID:
         drop_menu.add_command(label=string,
                               command= lambda value=string:
-                                dropVar.set(string))
+                                dropVar.set(value))
     print(dropVar)
-    for id in dropVar:
-       print(id)
+    for id in UID:
+        print(id)
 
         #for loop, adds value to drop menu
         #command is value = string
@@ -40,19 +40,20 @@ def help_guide():
     os.startfile(r"C:\Users\AlexT\OneDrive\Desktop\Python Project New\User_Guide.pdf")
 def option_changed(*args):
     print("the user chose value {}".format(dropVar.get()))
+    globalID = dropVar.get()
 
-def GPS_Visualisation(entry1,entry2,entry3,entry4):
+def GPS_Visualisation(entry1,entry2,entry3,entry4,globalID):
     vis = GPSVis(data_path=data_set,  # DATASET WITH COORDINATES
                  map_path=Map,  # Map Image from Open Street Maps
                  points= (float(entry1),float(entry2),float(entry3),float(entry4)))
     # Coordinates from Open Street Maps
     # Relates to the image so it can be written out
 
-    vis.create_image(color=(0, 0, 255), width=3)
+    vis.create_image(globalID, color=(0, 0, 255), width=3)
     # Sets the colour of the visualisation on map
     vis.plot_map(output='save')
 
-    # Starts the tkinter GUI
+# Starts the tkinter GUI
 root = Tk()
 
 # Creating a menu drop down bar
@@ -76,7 +77,8 @@ root.geometry('400x400')
 text = Label(root, text='Welcome to the Personal Security Application')
 text.pack()
 dropVar = tkinter.StringVar(root)
-dropVar.trace("w", option_changed)
+anothervariable=None
+dropVar.trace("w",option_changed(anothervariable))
 options_list = ["select a file"]
 drop_menu = tkinter.OptionMenu(root, dropVar, ())
 drop_menu.pack()
@@ -111,7 +113,7 @@ entry4.pack()
 # Add an error check later (int check, prescence check)
 # select present --- Dialog box
 submit = Button(root, text="Submit",
-                command=lambda: GPS_Visualisation(entry1.get(), entry2.get(), entry3.get(), entry4.get()))
+                command=lambda: GPS_Visualisation(entry1.get(), entry2.get(), entry3.get(), entry4.get(),globalID))
 submit.pack()
 
 

@@ -36,16 +36,22 @@ class GPSVis(object):
         else:
             plt.show()
 
-    def create_image(self, color, width=2):
+    def create_image(self, UID, color, width=2):
         # Creates an image that contains the Map and the GPS record
         # color = color the GPS line is
         # width = width of the GPS line
         data = pd.read_csv(self.data_path, header=0)
         data.info()
+        print(data['iPhoneUID'].values)
         self.result_image = Image.open(self.map_path, 'r')
         img_points = []
-        gps_data = tuple(zip(data['latitude'].values, data['longitude'].values))
+        gps_data = tuple(zip(data['iPhoneUID'].values, data['latitude'].values, data['longitude'].values))
         # sep will separate the latitude from the longitude
+        testing1 = gps_data
+        testing2 = []
+        for x, y, z in testing1:
+            if x == UID:
+                testing2.extend(y, z)
 
         for d in gps_data:
             x1, y1 = self.scale_to_img(d, (self.result_image.size[0], self.result_image.size[1]))
