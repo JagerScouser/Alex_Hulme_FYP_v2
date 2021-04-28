@@ -7,13 +7,14 @@ class GPSVis(object):
     # Class for visualisation of the GPS data
     # Creates a visualisation on the image downloaded from Open Street Maps
 
-    def __init__(self, data_path, map_path, points):
+    def __init__(self, data_path, map_path, points, userID):
         # data_path = file containing containing GPS records
         # map_path = location of the map image
         # points = Upper-Left and lower-right GPS points of the map (lat1, lon1, lat2, lon2).
         self.data_path = data_path
         self.points = points
         self.map_path = map_path
+        self.ID_ref = userID
 
         self.result_image = Image
         self.x_ticks = []
@@ -36,7 +37,7 @@ class GPSVis(object):
         else:
             plt.show()
 
-    def create_image(self, UID, color, width=2):
+    def create_image(self, color, width=2):
         # Creates an image that contains the Map and the GPS record
         # color = color the GPS line is
         # width = width of the GPS line
@@ -48,11 +49,12 @@ class GPSVis(object):
         gps_data = tuple(zip(data['iPhoneUID'].values, data['latitude'].values, data['longitude'].values))
         # sep will separate the latitude from the longitude
         testing1 = gps_data
+        print(testing1)
         testing2 = []
         for x, y, z in testing1:
-            if x == UID:
-                testing2.extend(y, z)
-
+            if x == self.ID_ref:
+                testing2.extend(zip(y.item, z.item))
+        print(testing2)
         for d in gps_data:
             x1, y1 = self.scale_to_img(d, (self.result_image.size[0], self.result_image.size[1]))
             img_points.append((x1, y1))

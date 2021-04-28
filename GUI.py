@@ -5,7 +5,6 @@ from tkinter import *
 import pandas as pd
 from Main import GPSVis
 import os
-global globalID
 
 def Open_Dataset(Menu, dropVar, index=None):
     # This function will open file explorer
@@ -25,8 +24,8 @@ def Open_Dataset(Menu, dropVar, index=None):
                               command= lambda value=string:
                                 dropVar.set(value))
     print(dropVar)
-    for id in UID:
-        print(id)
+   #for id in UID:
+        #print(id)
 
         #for loop, adds value to drop menu
         #command is value = string
@@ -40,17 +39,17 @@ def help_guide():
     os.startfile(r"C:\Users\AlexT\OneDrive\Desktop\Python Project New\User_Guide.pdf")
 def option_changed(*args):
     print("the user chose value {}".format(dropVar.get()))
-    global globalID
-    globalID = dropVar.get()
+    finalVar.set(dropVar.get())
+    print(finalVar.get())
 
-def GPS_Visualisation(entry1,entry2,entry3,entry4,globalID):
+def GPS_Visualisation(entry1,entry2,entry3,entry4,ID_Container):
     vis = GPSVis(data_path=data_set,  # DATASET WITH COORDINATES
                  map_path=Map,  # Map Image from Open Street Maps
-                 points= (float(entry1),float(entry2),float(entry3),float(entry4)))
+                 points= (float(entry1),float(entry2),float(entry3),float(entry4)),userID=ID_Container)
     # Coordinates from Open Street Maps
     # Relates to the image so it can be written out
 
-    vis.create_image(globalID, color=(0, 0, 255), width=3)
+    vis.create_image(color=(0, 0, 255), width=3)
     # Sets the colour of the visualisation on map
     vis.plot_map(output='save')
 
@@ -78,8 +77,8 @@ root.geometry('400x400')
 text = Label(root, text='Welcome to the Personal Security Application')
 text.pack()
 dropVar = tkinter.StringVar(root)
-anothervariable=None
-dropVar.trace("w",option_changed(anothervariable))
+finalVar = tkinter.StringVar(root)
+dropVar.trace('w', option_changed)
 options_list = ["select a file"]
 drop_menu = tkinter.OptionMenu(root, dropVar, ())
 drop_menu.pack()
@@ -114,7 +113,7 @@ entry4.pack()
 # Add an error check later (int check, prescence check)
 # select present --- Dialog box
 submit = Button(root, text="Submit",
-                command=lambda: GPS_Visualisation(entry1.get(), entry2.get(), entry3.get(), entry4.get(),globalID))
+                command=lambda: GPS_Visualisation(entry1.get(), entry2.get(), entry3.get(), entry4.get(),finalVar.get()))
 submit.pack()
 
 
