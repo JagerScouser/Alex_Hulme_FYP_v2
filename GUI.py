@@ -5,7 +5,7 @@ from tkinter import *
 import pandas as pd
 from Main import GPSVis
 import os
-globalID = str("somepieceoftext")
+global globalID
 
 def Open_Dataset(Menu, dropVar, index=None):
     # This function will open file explorer
@@ -40,6 +40,7 @@ def help_guide():
     os.startfile(r"C:\Users\AlexT\OneDrive\Desktop\Python Project New\User_Guide.pdf")
 def option_changed(*args):
     print("the user chose value {}".format(dropVar.get()))
+    global globalID
     globalID = dropVar.get()
 
 def GPS_Visualisation(entry1,entry2,entry3,entry4,globalID):
