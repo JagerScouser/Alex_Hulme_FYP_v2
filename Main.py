@@ -41,39 +41,21 @@ class GPSVis(object):
         # Creates an image that contains the Map and the GPS record
         # color = color the GPS line is
         # width = width of the GPS line
+        # Enabling the program to be able to read the dataset csv file
         data = pd.read_csv(self.data_path, header=0)
-        
         # This line will select records with selected user ID (self.ID_ref)
         data = data[data['iPhoneUID'] == self.ID_ref].reset_index(drop=True)
 
         self.result_image = Image.open(self.map_path, 'r')
+        # Creates an array that will hold the image points
         img_points = []
+        # Tuple allows for the values of latitude and longitude to be kept together
         gps_data = tuple(zip(data['latitude'].values, data['longitude'].values))
         for d in gps_data:
             x1, y1 = self.scale_to_img(d, (self.result_image.size[0], self.result_image.size[1]))
             img_points.append((x1, y1))
         draw = ImageDraw.Draw(self.result_image)
         draw.line(img_points, fill=color, width=width)
-        
-        #         data = pd.read_csv(self.data_path, header=0)
-        #         data.info()
-        #         print(data['iPhoneUID'].values)
-        #         self.result_image = Image.open(self.map_path, 'r')
-        #         img_points = []
-        #         gps_data = tuple(zip(data['iPhoneUID'].values, data['latitude'].values, data['longitude'].values))
-        #         # sep will separate the latitude from the longitude
-        #         testing1 = gps_data
-        #         print(testing1)
-        #         testing2 = []
-        #         for x, y, z in testing1:
-        #             if x == self.ID_ref:
-        #                 testing2.extend(zip(y.item, z.item))
-        #         print(testing2)
-        #         for d in gps_data:
-        #             x1, y1 = self.scale_to_img(d, (self.result_image.size[0], self.result_image.size[1]))
-        #             img_points.append((x1, y1))
-        #         draw = ImageDraw.Draw(self.result_image)
-        #         draw.line(img_points, fill=color, width=width)
 
     def scale_to_img(self, lat_lon, h_w):
         # Makes lat/long into image pixels

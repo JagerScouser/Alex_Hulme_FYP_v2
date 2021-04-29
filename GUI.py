@@ -10,25 +10,20 @@ def Open_Dataset(Menu, dropVar, index=None):
     # This function will open file explorer
     # making the filename global allows for it to be called later down the line
     global data_set
+    # data_set will be the file the user selects
     data_set = filedialog.askopenfilename()
     global UID
+    # Making program read the csv to find the iPhoneUID and assigning it as UID so it can be called
     UID=pd.read_csv(data_set)
     UID=UID['iPhoneUID'].unique().tolist()
-    print(type(UID))
-    #for id in UID:
-        #print(id)
     drop_menu = Menu["menu"]
+    # deletes any values in the dropdown list (it will be empty but still classes as containing something)
     drop_menu.delete(0, "end")
+    # This updates the UID in the dropdown list so the user can select it in the dropdown
     for string in UID:
         drop_menu.add_command(label=string,
                               command= lambda value=string:
                                 dropVar.set(value))
-    print(dropVar)
-   #for id in UID:
-        #print(id)
-
-        #for loop, adds value to drop menu
-        #command is value = string
 
 def Open_Map():
     global Map
@@ -40,7 +35,7 @@ def help_guide():
 def option_changed(*args):
     print("the user chose value {}".format(dropVar.get()))
     finalVar.set(dropVar.get())
-    print(finalVar.get())
+    #print(finalVar.get())
 
 def GPS_Visualisation(entry1,entry2,entry3,entry4,ID_Container):
     vis = GPSVis(data_path=data_set,  # DATASET WITH COORDINATES
@@ -48,6 +43,7 @@ def GPS_Visualisation(entry1,entry2,entry3,entry4,ID_Container):
                  points= (float(entry1),float(entry2),float(entry3),float(entry4)),userID=ID_Container)
     # Coordinates from Open Street Maps
     # Relates to the image so it can be written out
+
 
     vis.create_image(color=(0, 0, 255), width=3)
     # Sets the colour of the visualisation on map
@@ -78,7 +74,9 @@ text = Label(root, text='Welcome to the Personal Security Application')
 text.pack()
 dropVar = tkinter.StringVar(root)
 finalVar = tkinter.StringVar(root)
+# Trace allows for the options to be added from the dropVar list
 dropVar.trace('w', option_changed)
+# Creating a drop down list for the user to pick iPhoneUID's from so it can plot that specific UID
 options_list = ["select a file"]
 drop_menu = tkinter.OptionMenu(root, dropVar, ())
 drop_menu.pack()
