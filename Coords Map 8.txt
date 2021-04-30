@@ -1,7 +1,0 @@
-Top Left
-Lat - 35.5697
-Lon - 23.9722
-
-Bottom Right
-Lat - 35.4786
-Lon - 24.1672
